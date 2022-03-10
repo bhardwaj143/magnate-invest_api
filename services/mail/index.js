@@ -7,8 +7,8 @@ export const sendEmail = async (toMail) =>
 		const transport = createTransport({
 			service: 'gmail',
 			auth: {
-				user: privateKey.email,
-				pass: privateKey.password
+				user: privateKey.EMAIL,
+				pass: privateKey.PASSWORD
 			}
 		});
 
