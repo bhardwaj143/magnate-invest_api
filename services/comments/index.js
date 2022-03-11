@@ -6,6 +6,13 @@ export const findCommentsDetail = async (condition = {}) => await Comments.findO
 //Find Comments list
 export const findAllComments = async (condition = {}) => await Comments.find(condition).exec();
 
+//Find Category
+export const findCommentsById = (search = {}) => new Promise((resolve, reject) => {
+	Comments.findOne(search)
+		.then(resolve)
+		.catch(reject)
+});
+
 //Add Comments
 export const addComments = async (payload = {}, role) => {
     payload.role = role;

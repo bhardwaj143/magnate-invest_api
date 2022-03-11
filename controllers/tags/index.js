@@ -1,15 +1,39 @@
 import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes, userMapper } from '../../helpers/index.js';
-import { auth, validators } from '../../middleware/index.js';
-import upload from '../../middleware/upload/index.js';
-import { addUser, findAllContacts, findUserDetail, getcontacts } from '../../services/index.js';
+import { addTags, findAllTags, findTagById, updateTags } from '../../services/index.js';
 
 //Response Status code
-const { SUCCESS, NOT_FOUND, RECORD_ALREADY_EXISTS } = statusCodes;
+const { SUCCESS, RECORD_CREATED } = statusCodes;
 
 //Response Messages
-const { ALREADY_EXIST, REGISTERD, FETCH_CONTACTS, FETCH_TALKIE_CONTACTS, INVALID_EMAIL, INCORRECT_PASSWORD, LOGIN } = responseMessages;
+const { ADDED_TAG, FETCH_TAG, FETCH_TAGS, UPDATE_TAG } = responseMessages;
 
 const router = Router();
+
+
+//Add Tag
+router.post('/', catchAsyncAction(async (req, res) => {
+    let tag = await addTags(req.body);
+    return makeResponse(res, RECORD_CREATED, true, ADDED_TAG, tag);
+}));
+
+//Get Tag by Id
+router.get('/:id', catchAsyncAction(async (req, res) => {
+    let tag = await findTagById({ _id: req.params.id });
+    return makeResponse(res, SUCCESS, true, FETCH_TAG, tag);
+}));
+
+//Update Tag
+router.patch('/:id', catchAsyncAction(async (req, res) => {
+    let tag = await updateTags({ _id: req.params.id }, req.body);
+    return makeResponse(res, SUCCESS, true, UPDATE_TAG, tag);
+}));
+
+//Get Tag all tag
+router.get('/', catchAsyncAction(async (req, res) => {
+    let tag = await findAllTags({});
+    return makeResponse(res, SUCCESS, true, FETCH_TAGS, tag);
+}));
+
 
 export const tagController = router;

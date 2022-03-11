@@ -5,7 +5,7 @@ const blogsSchema = mongoose.Schema({
     title: {
         type: String,
     },
-    picture: {
+    blog_Picture: {
         type: String
     },
     discription: {

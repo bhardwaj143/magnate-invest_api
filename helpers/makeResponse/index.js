@@ -23,8 +23,23 @@ export const responseMessages = {
     'OTP_FOR_PASSWORD': 'OTP For Password Reset Sent To Your Email',
     'VERIFY_OTP': 'OTP Verified',
     'EMAIL_NOT_REGISTER': 'Email not registered',
-    'ALREADY_EXIST': 'Aleardy Exist Please Login'
-
+    'ALREADY_EXIST': 'Aleardy Exist Please Login',
+    'ADDED_CATEGORY': 'Category Added Successfully',
+    'UPDATE_CATEGORY': 'Category Updated Successfully',
+    'FETCH_CATEGORIES': 'Fetch All Categories Successfully',
+    'FETCH_CATEGORY': 'Fetch Category Successfully',
+    'ADDED_BLOG': 'Blog Added Successfully',
+    'UPDATE_BLOG': 'Category Updated Successfully',
+    'FETCH_BLOGS': 'Fetch All Categories Successfully',
+    'FETCH_BLOG': 'Fetch Category Successfully',
+    'ADDED_TAG': 'Blog Added Successfully',
+    'UPDATE_TAG': 'Category Updated Successfully',
+    'FETCH_TAGS': 'Fetch All Categories Successfully',
+    'FETCH_TAG': 'Fetch Category Successfully',
+    'ADDED_COMMENTS': 'Blog Added Successfully',
+    'UPDATE_COMMENTS': 'Category Updated Successfully',
+    'FETCH_COMMENTS': 'Fetch All Categories Successfully',
+    'FETCH_COMMENT': 'Fetch Category Successfully',
 }
 
 export const notificationPayload = {}

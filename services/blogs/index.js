@@ -13,6 +13,13 @@ export const addBlogs = async (payload = {}, role) => {
     return blogs.save();
 };
 
+//Find BLog
+export const findBlogById = (search = {}) => new Promise((resolve, reject) => {
+	Blogs.findOne(search)
+		.then(resolve)
+		.catch(reject)
+});
+
 //Update Blogs
 export const updateBlogs = (userprops = {}, condition = {}) => new Promise((resolve, reject) => {
     Blogs.findOneAndUpdate(condition, { $set: userprops }, { new: true })

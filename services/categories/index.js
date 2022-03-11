@@ -6,6 +6,13 @@ export const findCategoriesDetail = async (condition = {}) => await Categories.f
 //Find Categories list
 export const findAllCategories = async (condition = {}) => await Categories.find(condition).exec();
 
+//Find Category
+export const findCategoryById = (search = {}) => new Promise((resolve, reject) => {
+	Categories.findOne(search)
+		.then(resolve)
+		.catch(reject)
+});
+
 //Add Categories
 export const addCategories = async (payload = {}, role) => {
     payload.role = role;

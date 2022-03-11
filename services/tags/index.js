@@ -4,7 +4,7 @@ import { Tags } from '../../models/index.js';
 export const findTagsDetail = async (condition = {}) => await Tags.findOne(condition).exec();
 
 //Find Tags list
-export const findAllTagss = async (condition = {}) => await Tags.find(condition).exec();
+export const findAllTags = async (condition = {}) => await Tags.find(condition).exec();
 
 //Add Tags
 export const addTags = async (payload = {}, role) => {
@@ -12,6 +12,13 @@ export const addTags = async (payload = {}, role) => {
     let tags = new Tags(payload);
     return tags.save();
 };
+
+//Find BLog
+export const findTagById = (search = {}) => new Promise((resolve, reject) => {
+	Tags.findOne(search)
+		.then(resolve)
+		.catch(reject)
+});
 
 //Update Tags
 export const updateTags = (userprops = {}, condition = {}) => new Promise((resolve, reject) => {
