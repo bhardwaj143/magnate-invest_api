@@ -9,13 +9,14 @@ import {
     sendEmail,
     generateOtp,
     findAdmin,
-    addAdmin
+    addAdmin,
+    updateBlogs
 } from '../../services/index.js';
 import { validators } from '../../middleware/index.js';
 import  adminAuth  from '../../middleware/auth/admin.js';
 
 //Response messages
-const { LOGIN, OTP_MISMATCH, INVALID_PASSWORD, INVALID, PASSWORD_CHANGED, ADMIN_ADDED, USER_NOTFOUND, RESET_PASSWORD, OTP_FOR_PASSWORD, VERIFY_OTP, EMAIL_NOT_REGISTER, ALREADY_EXIST } = responseMessages;
+const { LOGIN, OTP_MISMATCH, INVALID_PASSWORD, INVALID, PASSWORD_CHANGED, ADMIN_ADDED, USER_NOTFOUND, RESET_PASSWORD, OTP_FOR_PASSWORD, VERIFY_OTP, EMAIL_NOT_REGISTER, ALREADY_EXIST, UPDATE_BLOG } = responseMessages;
 //Response Status code
 const { SUCCESS, NOT_FOUND, BAD_REQUEST, RECORD_ALREADY_EXISTS } = statusCodes;
 
@@ -134,5 +135,12 @@ router.post('/reset-password', validators('RESET_PASSWORD'), async (req, res) =>
             return makeResponse(res, BAD_REQUEST, false, error.message);
         });
 });
+
+//Popular blog
+router.patch('/blog/:id', catchAsyncAction(async (req, res) => {
+    let blog = await updateBlogs(req.body, { _id: req.params.id });
+    return makeResponse(res, SUCCESS, true, UPDATE_BLOG, blog);
+}));
+
 
 export const adminController = router;

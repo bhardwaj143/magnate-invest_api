@@ -2,13 +2,13 @@ import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes, userMapper } from '../../helpers/index.js';
 import { auth, validators } from '../../middleware/index.js';
 import upload from '../../middleware/upload/index.js';
-import { addBlogs, findAllBlogs, findBlogById, updateBlogs } from '../../services/index.js';
+import { addBlogs, deleteBlogs, findAllBlogs, findBlogById, getBlogsCount, updateBlogs } from '../../services/index.js';
 
 //Response Status code
 const { SUCCESS, RECORD_CREATED } = statusCodes;
 
 //Response Messages
-const { ADDED_BLOG, UPDATE_BLOG, FETCH_BLOG, FETCH_BLOGS } = responseMessages;
+const { ADDED_BLOG, UPDATE_BLOG, FETCH_BLOG, FETCH_BLOGS, DELETE_BLOG } = responseMessages;
 
 const router = Router();
 
@@ -26,15 +26,50 @@ router.get('/:id', catchAsyncAction(async (req, res) => {
 }));
 
 //Update Blog
-router.patch('/:id', catchAsyncAction(async (req, res) => {
-    let blog = await updateBlogs({ _id: req.params.id }, req.body);
+router.patch('/:id',upload.fields([{ name: 'blog_Picture', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
+    if (req?.files?.blog_Picture?.length > 0) req.body.blog_Picture = req.files.blog_Picture[0].path;
+    let blog = await updateBlogs(req.body,{ _id: req.params.id });
     return makeResponse(res, SUCCESS, true, UPDATE_BLOG, blog);
 }));
 
-//Get Blog by Id
+//Get All Blogs
 router.get('/', catchAsyncAction(async (req, res) => {
-    let blog = await findAllBlogs({});
-    return makeResponse(res, SUCCESS, true, FETCH_BLOGS, blog);
+    let searchingBlogs = {};
+    let page = 1,
+        limit = 10,
+        skip = 0,
+        status;
+    if (req.query.status) status = req.query.status;
+    if (req.query.page == 0) req.query.page = '';
+    if (req.query.page) page = req.query.page;
+    if (req.query.limit) limit = req.query.limit;
+    skip = (page - 1) * limit;
+    let regx;
+    let searchFilter = req.query;
+    if (searchFilter?.search) {
+        regx = new RegExp(searchFilter?.search);
+        searchingBlogs = {
+            isDeleted: false, $or: [{ 'title': { '$regex': regx, $options: 'i' } }]
+        }
+    };
+    if (!searchFilter?.search) {
+        searchingBlogs = {
+            isDeleted: false,
+        }
+    };
+    if (status) searchingBlogs["status"] = status;
+    let blog = await findAllBlogs(parseInt(skip), parseInt(limit), searchingBlogs);
+    let blogCount = await getBlogsCount(searchingBlogs);
+    return makeResponse(res, SUCCESS, true, FETCH_BLOGS, blog, {
+        current_page: Number(page),
+        total_records: blogCount,
+        total_pages: Math.ceil(blogCount / limit),
+    });
+}));
+
+router.delete('/:id', catchAsyncAction(async (req, res) => {
+    let blog = await deleteBlogs({ _id: req.params.id });
+    return makeResponse(res, SUCCESS, true, DELETE_BLOG);
 }));
 
 export const blogController = router;

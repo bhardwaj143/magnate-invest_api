@@ -1,13 +1,13 @@
 import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes } from '../../helpers/index.js';
 import upload from '../../middleware/upload/index.js';
-import { addCategories, findAllCategories, findCategoryById, updateCategories } from '../../services/index.js';
+import { addCategories, deleteCategories, findAllCategories, findCategoryById, updateCategories } from '../../services/index.js';
 
 //Response Status code
 const { SUCCESS, RECORD_CREATED } = statusCodes;
 
 //Response Messages
-const { ADDED_CATEGORY, UPDATE_CATEGORY, FETCH_CATEGORIES, FETCH_CATEGORY } = responseMessages;
+const { ADDED_CATEGORY, UPDATE_CATEGORY, FETCH_CATEGORIES, FETCH_CATEGORY, DELETE_CATEGORIES } = responseMessages;
 
 const router = Router();
 
@@ -25,8 +25,9 @@ router.get('/:id', catchAsyncAction(async (req, res) => {
 }));
 
 //Update Category
-router.patch('/:id', catchAsyncAction(async (req, res) => {
-    let updated = await updateCategories({ _id: req.params.id }, req.body);
+router.patch('/:id', upload.fields([{ name: 'category_Picture', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
+    if (req?.files?.category_Picture?.length > 0) req.body.category_Picture = req.files.category_Picture[0].path;
+    let updated = await updateCategories(req.body,{ _id: req.params.id });
     return makeResponse(res, SUCCESS, true, UPDATE_CATEGORY, updated);
 }));
 
@@ -34,6 +35,12 @@ router.patch('/:id', catchAsyncAction(async (req, res) => {
 router.get('/', catchAsyncAction(async (req, res) => {
     let category = await findAllCategories({});
     return makeResponse(res, SUCCESS, true, FETCH_CATEGORIES, category);
+}));
+
+//Delete category
+router.delete('/:id', catchAsyncAction(async (req, res) => {
+    let blog = await deleteCategories({ _id: req.params.id });
+    return makeResponse(res, SUCCESS, true, DELETE_CATEGORIES);
 }));
 
 export const categoriesController = router;

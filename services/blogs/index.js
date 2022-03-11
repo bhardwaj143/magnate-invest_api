@@ -3,8 +3,16 @@ import { Blogs } from '../../models/index.js';
 //Find Blogs detail
 export const findBlogsDetail = async (condition = {}) => await Blogs.findOne(condition).exec();
 
+
 //Find Blogs list
-export const findAllBlogs = async (condition = {}) => await Blogs.find(condition).exec();
+export const findAllBlogs = (skip, limit,search = {}) => new Promise((resolve, reject) => {
+    Blogs.find(search)
+        .skip(skip).limit(limit)
+		.sort('-createdAt')
+		.then(resolve)
+        .catch(reject)
+})
+
 
 //Add Blogs
 export const addBlogs = async (payload = {}, role) => {
@@ -66,4 +74,12 @@ async function getBlogs() {
     return data;
 
 }
+
+//Get count
+export const getBlogsCount = (search) => new Promise((resolve, reject) => {
+    Blogs.countDocuments(search)
+        .then(resolve)
+        .catch(reject)
+});
+
 export { getBlogs }

@@ -6,6 +6,7 @@ import {
     commentsController,
     contactController,
     groupController,
+    settingsController,
     tagController,
     userController
 } from '../controllers/index.js'
@@ -20,5 +21,6 @@ router.use('/categories', categoriesController);
 router.use('/comments', commentsController);
 router.use('/contact', contactController);
 router.use('/tag', tagController);
+router.use('/settings', settingsController);
 
 export { router };

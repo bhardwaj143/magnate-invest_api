@@ -7,3 +7,4 @@ export * from './categories/index.js';
 export * from './comments/index.js';
 export * from './contact/index.js';
 export * from './tags/index.js';
+export * from './settings/index.js';
