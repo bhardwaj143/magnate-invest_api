@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { Blogs } from '../../models/index.js';
-import { Categories } from '../../models/index.js';
 
 const commentsSchema = mongoose.Schema({
     name: {
@@ -13,7 +12,10 @@ const commentsSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    categoryId: { type: mongoose.Schema.ObjectId, ref: 'Categories' },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     blogId: { type: mongoose.Schema.ObjectId, ref: 'Blogs' }
 }, {
     timestamps: true

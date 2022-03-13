@@ -19,8 +19,12 @@ const blogsSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     categoryId: { type: mongoose.Schema.ObjectId, ref: 'Categories' },
-}, {
+ }, {
     timestamps: true
 });
 

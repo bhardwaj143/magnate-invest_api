@@ -10,6 +10,10 @@ const categoriesSchema = mongoose.Schema({
     discription: {
         type: String,
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
 }, {
     timestamps: true
 });

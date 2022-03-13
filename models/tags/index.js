@@ -4,6 +4,10 @@ const tagsSchema = mongoose.Schema({
     name: {
         type: String,
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
 }, {
     timestamps: true
 });

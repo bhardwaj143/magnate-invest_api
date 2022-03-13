@@ -25,10 +25,15 @@ router.get('/:id', catchAsyncAction(async (req, res) => {
 }));
 
 //Update Category
-router.patch('/:id', upload.fields([{ name: 'logo', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
+router.patch('/', upload.fields([{ name: 'logo', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
     if (req?.files?.logo?.length > 0) req.body.logo = req.files.logo[0].path;
-    let setting = await updateSettings(req.body, { _id: req.params.id });
-    return makeResponse(res, SUCCESS, true, UPDATE_SETTINGS, setting);
+    let checkRecord = await findSettingsById({});
+    if(!checkRecord){
+        await addSettings(req.body);
+    }else{
+        await updateSettings(req.body, { _id: checkRecord._id });
+    }
+    return makeResponse(res, SUCCESS, true, UPDATE_SETTINGS);
 }));
 
 //Get category by Id

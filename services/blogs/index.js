@@ -5,11 +5,12 @@ export const findBlogsDetail = async (condition = {}) => await Blogs.findOne(con
 
 
 //Find Blogs list
-export const findAllBlogs = (skip, limit,search = {}) => new Promise((resolve, reject) => {
+export const findAllBlogs = (skip, limit, search = {}) => new Promise((resolve, reject) => {
     Blogs.find(search)
+        .populate('categoryId')
         .skip(skip).limit(limit)
-		.sort('-createdAt')
-		.then(resolve)
+        .sort('-createdAt')
+        .then(resolve)
         .catch(reject)
 })
 
@@ -23,9 +24,10 @@ export const addBlogs = async (payload = {}, role) => {
 
 //Find BLog
 export const findBlogById = (search = {}) => new Promise((resolve, reject) => {
-	Blogs.findOne(search)
-		.then(resolve)
-		.catch(reject)
+    Blogs.findOne(search)
+        .populate('categoryId')
+        .then(resolve)
+        .catch(reject)
 });
 
 //Update Blogs

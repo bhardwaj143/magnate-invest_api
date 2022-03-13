@@ -13,6 +13,10 @@ const settingsSchema = mongoose.Schema({
     contact: {
         type: String,
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
 }, {
     timestamps: true
 });
