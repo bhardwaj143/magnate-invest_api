@@ -1,4 +1,4 @@
-import { Comments } from '../../models/index.js';
+import { Comments, Blogs } from '../../models/index.js';
 
 //Find Comments detail
 export const findCommentsDetail = async (condition = {}) => await Comments.findOne(condition).exec();
@@ -66,4 +66,20 @@ async function getComments() {
     return data;
 
 }
-export { getComments }
+
+async function postComment(id,req){
+    const comment = new Comments({
+        comment: req.body.comment,
+        name: req.body.name,
+        email: req.body.email,
+        blogId: id
+     })
+    await comment.save();
+
+    await Blogs.findByIdAndUpdate(
+        { _id: id }, 
+        { $push: { comments: comment } },
+    );
+    return comment
+}
+export { getComments, postComment }

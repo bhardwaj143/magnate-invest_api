@@ -2,7 +2,7 @@ import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes, userMapper } from '../../helpers/index.js';
 import { auth, validators } from '../../middleware/index.js';
 import upload from '../../middleware/upload/index.js';
-import { addComments, deleteComments, findAllComments, findAllContacts, findCommentsById, updateComments } from '../../services/index.js';
+import { addComments, deleteComments, findAllComments, findAllContacts, findCommentsById, postComment, updateBlogs, updateComments } from '../../services/index.js';
 
 //Response Status code
 const { SUCCESS, RECORD_CREATED } = statusCodes;
@@ -13,8 +13,8 @@ const { ADDED_COMMENTS, FETCH_COMMENTS, FETCH_COMMENT, UPDATE_COMMENTS, DELETE_C
 const router = Router();
 
 //Add Comments
-router.post('/', catchAsyncAction(async (req, res) => {
-    let comment = await addComments(req.body);
+router.post('/:id', catchAsyncAction(async (req, res) => {
+    const comment = await postComment(req.params.id, req);
     return makeResponse(res, RECORD_CREATED, true, ADDED_COMMENTS, comment);
 }));
 

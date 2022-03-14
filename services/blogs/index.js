@@ -8,6 +8,7 @@ export const findBlogsDetail = async (condition = {}) => await Blogs.findOne(con
 export const findAllBlogs = (skip, limit, search = {}) => new Promise((resolve, reject) => {
     Blogs.find(search)
         .populate('categoryId')
+        .populate('comments')
         .skip(skip).limit(limit)
         .sort('-createdAt')
         .then(resolve)

@@ -2,7 +2,7 @@ import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes, userMapper } from '../../helpers/index.js';
 import { auth, validators } from '../../middleware/index.js';
 import upload from '../../middleware/upload/index.js';
-import { addBlogs, deleteBlogs, findAllBlogs, findBlogById, getBlogsCount, updateBlogs } from '../../services/index.js';
+import { addBlogs, deleteBlogs, findAllBlogs, findBlogById, findCommentsById, getBlogsCount, updateBlogs } from '../../services/index.js';
 
 //Response Status code
 const { SUCCESS, RECORD_CREATED } = statusCodes;
