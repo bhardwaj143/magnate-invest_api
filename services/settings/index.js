@@ -4,7 +4,7 @@ import { Settings } from '../../models/index.js';
 export const findSettingsDetail = async (condition = {}) => await Settings.findOne(condition).exec();
 
 //Find Settings list
-export const findAllSettings = async (condition = {}) => await Settings.find(condition).exec();
+export const findAllSettings = async (condition = {}) => await Settings.findOne(condition).exec();
 
 //Add Settings
 export const addSettings = async (payload = {}, role) => {
