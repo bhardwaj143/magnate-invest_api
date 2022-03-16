@@ -11,6 +11,15 @@ const blogsSchema = mongoose.Schema({
     title: {
         type: String,
     },
+    metaName: {
+        type: String,
+    },
+    metaDescription: {
+        type: String,
+    },
+    metaKeyword: {
+        type: String,
+    },
     blog_Picture: {
         type: String
     },
