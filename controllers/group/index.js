@@ -6,10 +6,10 @@ import { addGroup, findAllGroup } from '../../services/index.js';
 import mongoose from "mongoose";
 
 //Response Status code
-const { SUCCESS, NOT_FOUND, RECORD_ALREADY_EXISTS } = statusCodes;
+const { SUCCESS } = statusCodes;
 
 //Response Messages
-const { GROUP_CREATED, FETCH_TALKIE_CONTACTS, FETCH_All_Group } = responseMessages;
+const { GROUP_CREATED, FETCH_All_Group } = responseMessages;
 
 const router = Router();
 

@@ -15,7 +15,7 @@ export const findCommentsById = (search = {}) => new Promise((resolve, reject) =
 
 //Add Comments
 export const addComments = async (payload = {}, role) => {
-    payload.role = role;
+    // payload.role = role;
     let comments = new Comments(payload);
     return comments.save();
 };

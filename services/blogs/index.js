@@ -7,8 +7,8 @@ export const findBlogsDetail = async (condition = {}) => await Blogs.findOne(con
 //Find Blogs list
 export const findAllBlogs = (skip, limit, search = {}) => new Promise((resolve, reject) => {
     Blogs.find(search)
-        .populate('categoryId')
         .populate('comments')
+        .populate('categoryId')
         .skip(skip).limit(limit)
         .sort('-createdAt')
         .then(resolve)
@@ -27,6 +27,7 @@ export const addBlogs = async (payload = {}, role) => {
 export const findBlogById = (search = {}) => new Promise((resolve, reject) => {
     Blogs.findOne(search)
         .populate('categoryId')
+        .populate('comments')
         .then(resolve)
         .catch(reject)
 });

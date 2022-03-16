@@ -1,7 +1,7 @@
 import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes } from '../../helpers/index.js';
 import upload from '../../middleware/upload/index.js';
-import { addSettings, deleteSettings, findAllSettings, findSettingsById, updateSettings } from '../../services/index.js';
+import { addSettings, deleteSettings, findAllSettings, findSettingsById, findSettingsDetail, updateSettings } from '../../services/index.js';
 
 //Response Status code
 const { SUCCESS, RECORD_CREATED } = statusCodes;
@@ -38,7 +38,7 @@ router.patch('/', upload.fields([{ name: 'logo', maxCount: 1 }]), catchAsyncActi
 
 //Get category by Id
 router.get('/', catchAsyncAction(async (req, res) => {
-    let setting = await findAllSettings({});
+    let setting = await findSettingsDetail({});
     return makeResponse(res, SUCCESS, true, FETCH_SETTINGS, setting);
 }));
 

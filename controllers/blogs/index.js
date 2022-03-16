@@ -41,11 +41,15 @@ router.get('/', catchAsyncAction(async (req, res) => {
     let page = 1,
         limit = 10,
         skip = 0,
-        status;
+        status,
+        isTreandings,
+        categoryId
     if (req.query.status) status = req.query.status;
     if (req.query.page == 0) req.query.page = '';
     if (req.query.page) page = req.query.page;
     if (req.query.limit) limit = req.query.limit;
+    if (req.query.isTreandings) isTreandings = req.query.isTreandings;
+    if (req.query.categoryId) categoryId = req.query.categoryId;
     skip = (page - 1) * limit;
     let regx;
     let searchFilter = req.query;
@@ -61,9 +65,12 @@ router.get('/', catchAsyncAction(async (req, res) => {
         }
     };
     if (status) searchingBlogs["status"] = status;
+    if (isTreandings) searchingBlogs["isTreandings"] = isTreandings;
+    if (categoryId) searchingBlogs["categoryId"] = categoryId;
     let blog = await findAllBlogs(parseInt(skip), parseInt(limit), searchingBlogs);
 
     blog.map(element => {
+        console.log("><><><><>><<>><<>><",moment(element?.categoryId?.createdAt).format('DD MMMM'));
         return blogs.push({
             _id: element._id,
             title: element.title,
@@ -87,7 +94,12 @@ router.get('/', catchAsyncAction(async (req, res) => {
                     updatedAt: comment.updatedAt,
                     __v: comment.__v
                 })
-            })
+            }),
+            categoryId: element?.categoryId?._id,
+            categoryName: element?.categoryId?.name,
+            categoryPicture: element?.categoryId?.category_Picture,
+            categoryDescription: element?.categoryId?.category_Picture,
+            categoryDate: moment(element?.categoryId?.createdAt).format('DD MMMM')
         })
     })
     let blogCount = await getBlogsCount(searchingBlogs);

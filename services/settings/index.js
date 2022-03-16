@@ -9,6 +9,11 @@ export const findAllSettings = async (condition = {}) => await Settings.findOne(
 //Add Settings
 export const addSettings = async (payload = {}, role) => {
     payload.role = role;
+    let settingRecord = await Settings.findOne({}).exec();
+    if(settingRecord) {
+        let setting = await Settings.findOneAndUpdate({_id: settingRecord._id}, { $set: payload }, { new: true });
+        return setting;
+    }
     let setting = new Settings(payload);
     return setting.save();
 };
