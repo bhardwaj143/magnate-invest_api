@@ -33,7 +33,7 @@ router.patch('/:id', upload.fields([{ name: 'category_Picture', maxCount: 1 }]),
 
 //Get category by Id
 router.get('/', catchAsyncAction(async (req, res) => {
-    let category = await findAllCategories({});
+    let category = await findAllCategories({isDeleted: false});
     return makeResponse(res, SUCCESS, true, FETCH_CATEGORIES, category);
 }));
 
