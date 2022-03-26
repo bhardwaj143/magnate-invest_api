@@ -12,8 +12,14 @@ const { ADDED_SETTINGS, UPDATE_SETTINGS, FETCH_SETTINGS, FETCH_SETTING, DELETE_S
 const router = Router();
 
 //Add Category
-router.post('/', upload.fields([{ name: 'logo', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
+router.post('/', upload.fields([{ name: 'logo', maxCount: 1 },
+{ name: 'banner1', maxCount: 1 },
+{ name: 'banner2', maxCount: 1 },
+{ name: 'banner3', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
     if (req?.files?.logo?.length > 0) req.body.logo = req.files.logo[0].path;
+    if (req?.files?.banner1?.length > 0) req.body.banner1 = req.files.banner1[0].path;
+    if (req?.files?.banner2?.length > 0) req.body.banner2 = req.files.banner2[0].path;
+    if (req?.files?.banner3?.length > 0) req.body.banner3 = req.files.banner3[0].path;
     let setting = await addSettings(req.body);
     return makeResponse(res, RECORD_CREATED, true, ADDED_SETTINGS, setting);
 }));
@@ -25,12 +31,17 @@ router.get('/:id', catchAsyncAction(async (req, res) => {
 }));
 
 //Update Category
-router.patch('/', upload.fields([{ name: 'logo', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
+router.patch('/', upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'banner1', maxCount: 1 },
+{ name: 'banner2', maxCount: 1 },
+{ name: 'banner3', maxCount: 1 }]), catchAsyncAction(async (req, res) => {
     if (req?.files?.logo?.length > 0) req.body.logo = req.files.logo[0].path;
+    if (req?.files?.banner1?.length > 0) req.body.banner1 = req.files.banner1[0].path;
+    if (req?.files?.banner2?.length > 0) req.body.banner2 = req.files.banner2[0].path;
+    if (req?.files?.banner3?.length > 0) req.body.banner3 = req.files.banner3[0].path;
     let checkRecord = await findSettingsById({});
-    if(!checkRecord){
+    if (!checkRecord) {
         await addSettings(req.body);
-    }else{
+    } else {
         await updateSettings(req.body, { _id: checkRecord._id });
     }
     return makeResponse(res, SUCCESS, true, UPDATE_SETTINGS);

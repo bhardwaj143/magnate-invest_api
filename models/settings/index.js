@@ -16,6 +16,33 @@ const settingsSchema = mongoose.Schema({
     email: {
         type: String,
     },
+    banner1: {
+        type: String,
+    },
+    banner2: {
+        type: String,
+    },
+    banner3: {
+        type: String,
+    },
+    about_us_heading: {
+        type: String
+    },
+    about_us_detail: {
+        type: String
+    },
+    facebook: {
+        type: String
+    },
+    instagram: {
+        type: String
+    },
+    twitter: {
+        type: String
+    },
+    youtube: {
+        type: String
+    },
     isDeleted: {
         type: Boolean,
         default: false

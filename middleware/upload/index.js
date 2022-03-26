@@ -14,6 +14,9 @@ const storage = diskStorage({
 		if(req.files?.category_Picture) cb(null, './uploads/categories');
 		else if (req.files?.blog_Picture) cb(null, './uploads/blogs');
 		else if (req.files?.logo) cb(null, './uploads/logo');
+		else if (req.files?.banner1) cb(null, './uploads/banners');
+		else if (req.files?.banner2) cb(null, './uploads/banners');
+		else if (req.files?.banner3) cb(null, './uploads/banners');
 		else cb(null, './uploads/pictures');
 	},
 	filename: function (req, file, cb) {
