@@ -43,6 +43,27 @@ const settingsSchema = mongoose.Schema({
     youtube: {
         type: String
     },
+    metaName: {
+        type: String,
+    },
+    metaDescription: {
+        type: String,
+    },
+    metaKeyword: {
+        type: String,
+    },
+    copyRight: {
+        type: String
+    },
+    nodeMailerEmail: {
+        type: String,
+    },
+    nodeMailerPassword: {
+        type: String,
+    },
+    userEmail: {
+        type: String,
+    },
     isDeleted: {
         type: Boolean,
         default: false

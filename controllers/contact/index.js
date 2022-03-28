@@ -1,7 +1,7 @@
 import Router from 'express';
 import { catchAsyncAction, makeResponse, responseMessages, statusCodes } from '../../helpers/index.js';
 import { validators } from '../../middleware/validateResource/index.js';
-import { addContact, sendEmail } from '../../services/index.js';
+import { addContact, findAllSettings, sendEmail } from '../../services/index.js';
 import { privateKey } from '../../config/privateKeys.js';
 
 //Response messages
@@ -12,13 +12,16 @@ const { RECORD_CREATED, BAD_REQUEST, NOT_FOUND } = statusCodes;
 const router = Router();
 //Insert request
 router.post("/", catchAsyncAction(async (req, res) => {
+    let contactUs = await findAllSettings({});
     return Promise.all(
         [
             sendEmail({
-                from: req.body.email,
-                to: privateKey.EMAIL,
+                from: contactUs.userEmail,
+                to: contactUs.nodeMailerEmail,
                 subject: `Query Topic ${req.body.queryTopic}, Contact No. ${req.body.phone_number}!`,
-                text: req.body.message
+                text: req.body.message,
+                email: contactUs.nodeMailerEmail,
+                password: contactUs.nodeMailerPassword
             }),
             addContact(req.body)
         ]

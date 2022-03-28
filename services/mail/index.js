@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { privateKey } from '../../config/privateKeys.js';
+import { findAllSettings } from '../index.js';
 const { createTransport } = nodemailer;
 
 export const sendEmail = async (toMail) =>
@@ -7,8 +8,8 @@ export const sendEmail = async (toMail) =>
 		const transport = createTransport({
 			service: 'gmail',
 			auth: {
-				user: privateKey.EMAIL,
-				pass: privateKey.PASSWORD
+				user: toMail.email,
+				pass: toMail.password
 			}
 		});
 
